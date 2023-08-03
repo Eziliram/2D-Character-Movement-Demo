@@ -15,7 +15,13 @@ public class IdleState : State {
     public override void Execute() {
         // Do nothing if in Idle state
 
-        // TODO: Transition to Walk state if movement input detected
+        if (character.groundDetector.isOnTheGround) {
+            // Transition to Walk state if movement input detected
+            if (Mathf.Abs(character.inputController.movement.x) > 0.1f) {
+                stateMachine.SetState(character.walkState);
+                return;
+            }
+        }
     }
 
     public override void Exit() {

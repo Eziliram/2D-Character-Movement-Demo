@@ -12,9 +12,13 @@ public class Character : MonoBehaviour {
     public Pixelator animator;
     public SpriteRenderer spriteRenderer;
 
+    [HideInInspector] public InputController inputController;
+    [HideInInspector] public GroundDetector groundDetector;
+
     //*** Character behaviour states ***//
     // Ground states
     public IdleState idleState;
+    public WalkState walkState;
 
     public float velocityX {
         get {
@@ -34,6 +38,19 @@ public class Character : MonoBehaviour {
         }
     }
 
+    private void Awake() {
+        // Instantiate controllers
+        inputController = FindObjectOfType<InputController>();
+
+        // Instantiate utility components
+        groundDetector = FindObjectOfType<GroundDetector>();
+
+        // Assign character to input controller
+        if (inputController != null) {
+            inputController.AssignCharacter(this);
+        }
+    }
+
     private void Update() {
         /**
          * This will execute the implementation of function Execute() of the current state on each frame.
@@ -47,9 +64,9 @@ public class Character : MonoBehaviour {
      */
     public void SetFaceDirection(float hInput) {
         if (hInput > 0) {
-            isFacingLeft = false;
-        } else if (hInput < 0) {
             isFacingLeft = true;
+        } else if (hInput < 0) {
+            isFacingLeft = false;
         }
 
         FlipCharacterDirection();
