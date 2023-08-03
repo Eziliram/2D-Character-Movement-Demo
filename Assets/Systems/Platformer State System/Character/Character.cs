@@ -13,12 +13,16 @@ public class Character : MonoBehaviour {
     public SpriteRenderer spriteRenderer;
 
     [HideInInspector] public InputController inputController;
+    [HideInInspector] public AbilitiesController abilitiesController;
     [HideInInspector] public GroundDetector groundDetector;
 
     //*** Character behaviour states ***//
     // Ground states
     public IdleState idleState;
     public WalkState walkState;
+
+    // Abilities
+    public JumpState jumpState;
 
     public float velocityX {
         get {
@@ -41,6 +45,7 @@ public class Character : MonoBehaviour {
     private void Awake() {
         // Instantiate controllers
         inputController = FindObjectOfType<InputController>();
+        abilitiesController = FindObjectOfType<AbilitiesController>();
 
         // Instantiate utility components
         groundDetector = FindObjectOfType<GroundDetector>();

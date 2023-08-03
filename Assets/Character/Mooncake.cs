@@ -8,8 +8,12 @@ public class Mooncake : Character {
     private Idle idle;
     private Walk walk;
 
+    // Abilities
+    private Jump jump;
+
     private void Start() {
         SetupStateSystem();
+        SetupAbilities();
         SetupCharacter();
     }
 
@@ -22,16 +26,21 @@ public class Mooncake : Character {
         idle = FindObjectOfType<Idle>();
         walk = FindObjectOfType<Walk>();
 
+        // Instantiate abilities
+        jump = FindObjectOfType<Jump>();
+
         stateMachine = new StateMachine();
 
         // Initialise state behaviours
         idleState = new IdleState(idle);
         walkState = new WalkState(walk);
+        jumpState = new JumpState(jump);
 
         // Add states to list
         states.AddRange(new List<State> {
             idleState,
             walkState,
+            jumpState,
         });
 
         // Initialize each state by assigning the state machine and character to it
@@ -41,6 +50,13 @@ public class Mooncake : Character {
 
         // Initialize the state machine with the Idle state
         stateMachine.SetState(idleState);
+    }
+
+    /**
+     * Function to setup Abilities
+     */
+    private void SetupAbilities() {
+        abilitiesController.Initialize(this);
     }
 
     /**
